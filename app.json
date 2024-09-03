@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "AnggaranCerdas",
-    "slug": "AnggaranCerdas",
+    "name": "Anggaran Cerdas",
+    "slug": "Anggaran-Cerdas",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/configSplash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -16,12 +16,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.alanpratama.AnggaranCerdas"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8c34d483-ae4d-4afc-9e7a-42cf09152312"
+      }
     }
   }
 }
