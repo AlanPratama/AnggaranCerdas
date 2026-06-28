@@ -82,7 +82,7 @@ const AddTransactionComp = ({ categories, fetch, db, refRBSheet }) => {
       setQuantityErr("");
     }
 
-    if (!totalPrice) {
+    if (!totalPrice || totalPrice <= "0") {
       setTotalPriceErr("Total Harga Wajib Diisi");
       return;
     } else {
@@ -90,7 +90,7 @@ const AddTransactionComp = ({ categories, fetch, db, refRBSheet }) => {
     }
 
     if (!selectedCategory) {
-      setSelectedCategory(categories[categories.length - 1]);
+      setSelectedCategory(categories[0]);
       return;
     }
 

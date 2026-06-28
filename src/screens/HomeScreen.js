@@ -27,7 +27,19 @@ export default function HomeScreen() {
 
   const fetchData = async () => {
     try {
-      const catStatement = await db.prepareAsync("SELECT * FROM category;");
+      const catStatement = await db.prepareAsync(`
+        SELECT
+            c.id,
+            c.name,
+            c.icon,
+            c.color,
+            COUNT(t.id) AS totalTransactions
+        FROM category c
+        LEFT JOIN transactions t
+            ON t.categoryId = c.id
+        GROUP BY c.id, c.name, c.icon
+        ORDER BY totalTransactions DESC, c.name ASC
+      `);
       const execCat = await catStatement.executeAsync();
       const resCat = await execCat.getAllAsync();
       await catStatement.finalizeAsync();
@@ -81,6 +93,8 @@ export default function HomeScreen() {
   };
 
   const handleSheetUpdate = (trans) => {
+    console.log(`trans: ${trans.categoryName}`);
+
     setTransactionUpdate(trans);
     refRBSheetUpdate.current.open();
   };
@@ -88,19 +102,11 @@ export default function HomeScreen() {
   const handleClickCategory = async (cat) => {
     setSelectedCategory(cat);
 
-    console.log("cat: ", cat);
-
     try {
-      const catStatement = await db.prepareAsync("SELECT * FROM category;");
-      const execCat = await catStatement.executeAsync();
-      const resCat = await execCat.getAllAsync();
-      await catStatement.finalizeAsync();
-      setCategories(resCat);
-
       const transStatement = await db.prepareAsync(`
         SELECT
           DATE(t.timestamps) AS transactionDate,
-          strftime('%H:%M', t.timestamps) AS transactionTime, 
+          strftime('%H:%M', t.timestamps) AS transactionTime,
           t.id AS transactionId,
           t.categoryId,
           t.product,
@@ -159,8 +165,8 @@ export default function HomeScreen() {
   return (
     <View className="flex-1 bg-white">
       <StatusBar style="auto" />
-      <View className="h-screen mt-12">
-        <View className="px-3">
+      <View className="flex-1 mt-12">
+        <View className="flex-1 px-3">
           <Animated.Text
             entering={FadeIn.delay(150)}
             className="text-2xl font-semibold mb-2"
@@ -196,7 +202,7 @@ export default function HomeScreen() {
                   Semua Category
                 </Text>
               </TouchableOpacity>
-              {categories.map((cat, index) => {
+              {categories.map((cat, _) => {
                 return (
                   <TouchableOpacity
                     activeOpacity={AppStyle.TouchableOpacity.Active}
@@ -219,7 +225,9 @@ export default function HomeScreen() {
                     <Text
                       className={`font-semibold text-[16px] ${selectedCategory?.id === cat.id ? "text-white" : "text-neutral-700"}`}
                     >
-                      {cat.name}
+                      {cat.name}{" "}
+                      {cat.totalTransactions > 0 &&
+                        `(${cat.totalTransactions})`}
                     </Text>
                   </TouchableOpacity>
                 );
@@ -264,13 +272,14 @@ export default function HomeScreen() {
           </Animated.View>
 
           {/* BODY PENGELUARAN */}
-          <View className=" h-[475px]">
+          <View className="flex-1">
             {Object.keys(transactions).length > 0 ? (
               <ScrollView
+                style={{ flex: 1 }}
                 contentContainerStyle={{
                   paddingTop: 10,
-                  paddingLeft: 0,
-                  paddingRight: 0,
+                  paddingBottom: 30,
+                  flexGrow: 1,
                 }}
                 showsVerticalScrollIndicator={false}
               >

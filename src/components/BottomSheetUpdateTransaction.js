@@ -67,6 +67,12 @@ const UpdateTransactionComp = ({
   db,
   refRBSheet,
 }) => {
+  const categoriesData = categories.map((category) => ({
+    id: category.id,
+    name: category.name,
+    icon: category.icon,
+    color: category.color,
+  }))
   const [name, setName] = useState(transaction.product);
   const [totalPrice, setTotalPrice] = useState(transaction.totalPrice);
   const [quantity, setQuantity] = useState(transaction.quantity);
@@ -98,7 +104,7 @@ const UpdateTransactionComp = ({
       setQuantityErr("");
     }
 
-    if (!totalPrice) {
+    if (!totalPrice || totalPrice <= "0") {
       setTotalPriceErr("Total Harga Wajib Diisi");
       return;
     } else {
@@ -106,15 +112,12 @@ const UpdateTransactionComp = ({
     }
 
     if (!selectedCategory) {
-      setSelectedCategory(categories[categories.length - 1]);
+      setSelectedCategory(categoriesData[0]);
       return;
     }
 
     try {
       await db.execAsync("BEGIN TRANSACTION;");
-      console.log("transaction.id: ", transaction.transactionId);
-      console.log("selectedCategory.id: ", selectedCategory.id);
-
       await db.execAsync(`
             UPDATE transactions SET categoryId = ${selectedCategory.id}, product = '${name}', quantity = ${quantity}, totalPrice = ${totalPrice} WHERE id = ${transaction.transactionId};
           `);
@@ -210,12 +213,11 @@ const UpdateTransactionComp = ({
         <View className="flex flex-row justify-center items-center mb-[25px]">
           <View className="border border-gray-500 rounded-[10px] w-[90%]">
             <SelectDropdown
-              data={categories}
+              data={categoriesData}
               search={true}
               defaultValue={selectedCategory}
-              onSelect={(selectedItem, index) => {
+              onSelect={(selectedItem, _) => {
                 setSelectedCategory(selectedItem);
-                console.log(selectedItem, index);
               }}
               renderButton={(selectedItem, isOpened) => {
                 return (
