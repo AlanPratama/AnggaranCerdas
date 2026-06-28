@@ -21,8 +21,6 @@ export default function WelcomeScreen() {
             const resCat = await execCat.getAllAsync();
             await catStatement.finalizeAsync();
 
-            console.log("resCat: ", resCat.length);
-
             if(resCat.length <= 0) {
                 const seedStatement = await db.prepareAsync(`
                     INSERT INTO category (name, icon, color) VALUES

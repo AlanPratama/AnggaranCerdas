@@ -14,7 +14,7 @@ import DateUtil from "../utils/date_util";
 
 export default function HomeScreen() {
   const [categories, setCategories] = useState([]);
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState({});
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [transactionUpdate, setTransactionUpdate] = useState({});
@@ -65,7 +65,7 @@ export default function HomeScreen() {
         ON
           t.categoryId = c.id
         ORDER BY
-          transactionDate DESC, t.id DESC;
+          t.id DESC;
       `);
       const execTrans = await transStatement.executeAsync();
       const resTrans = await execTrans.getAllAsync();
@@ -93,8 +93,6 @@ export default function HomeScreen() {
   };
 
   const handleSheetUpdate = (trans) => {
-    console.log(`trans: ${trans.categoryName}`);
-
     setTransactionUpdate(trans);
     refRBSheetUpdate.current.open();
   };
@@ -124,7 +122,7 @@ export default function HomeScreen() {
           t.categoryId = c.id
         WHERE t.categoryId = ${cat.id}
         ORDER BY
-          transactionDate DESC, t.id DESC;
+          t.id DESC;
       `);
       const execTrans = await transStatement.executeAsync();
       const resTrans = await execTrans.getAllAsync();
@@ -159,8 +157,6 @@ export default function HomeScreen() {
   useEffect(() => {
     fetchData();
   }, []);
-
-  console.log("transactions: ", transactions);
 
   return (
     <View className="flex-1 bg-white">

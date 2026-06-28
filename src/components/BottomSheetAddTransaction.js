@@ -197,7 +197,6 @@ const AddTransactionComp = ({ categories, fetch, db, refRBSheet }) => {
               defaultValue={selectedCategory}
               onSelect={(selectedItem, index) => {
                 setSelectedCategory(selectedItem);
-                console.log(selectedItem, index);
               }}
               renderButton={(selectedItem, isOpened) => {
                 return (

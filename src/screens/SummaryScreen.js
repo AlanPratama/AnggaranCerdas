@@ -29,8 +29,8 @@ export default function SummaryScreen() {
   const fetchExpenseData = async () => {
     const expenseStatement = await db.prepareAsync(`
           SELECT
-            DATE(t.timestamps) AS date,  
-            SUM(t.totalPrice) AS totalExpense  
+            DATE(t.timestamps) AS date,
+            SUM(t.totalPrice) AS totalExpense
           FROM
             transactions t
           WHERE

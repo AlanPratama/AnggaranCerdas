@@ -58,7 +58,7 @@ export default function App() {
           icon VARCHAR NOT NULL,
           color VARCHAR NOT NULL
         );
-      `)
+      `);
 
       await db.execAsync(`
         CREATE TABLE IF NOT EXISTS transactions (
@@ -70,9 +70,23 @@ export default function App() {
           timestamps DATETIME DEFAULT (datetime('now', 'localtime')),
           FOREIGN KEY(categoryId) REFERENCES category(id)
         );
-      `)
+      `);
 
-      
+      // CREATE INDEX
+      await db.execAsync(`
+        CREATE INDEX IF NOT EXISTS idx_transactions_category
+        ON transactions(categoryId);
+      `);
+
+      await db.execAsync(`
+        CREATE INDEX IF NOT EXISTS idx_transactions_timestamp
+        ON transactions(timestamps);
+      `);
+
+      await db.execAsync(`
+        CREATE INDEX IF NOT EXISTS idx_transactions_category_timestamp
+        ON transactions(categoryId, timestamps);
+      `);
 
       await db.execAsync("COMMIT;")
       console.log("Database Initialized Successfully!");
