@@ -5,6 +5,8 @@ import { LineChart } from "react-native-chart-kit";
 import { useSQLiteContext } from "expo-sqlite";
 import { useNavigation } from "@react-navigation/native";
 import Animated, { FadeIn } from "react-native-reanimated";
+import { FormatRupiahWithRp } from "../utils/value_util";
+import AppStyle from "../utils/style_util";
 
 function formatDate(dateString) {
   const options = { weekday: "short", day: "numeric", month: "short" };
@@ -177,7 +179,7 @@ export default function SummaryScreen() {
         ) : (
           <ScrollView showsVerticalScrollIndicator={false} className="mt-12">
         <Animated.View entering={FadeIn.delay(200)} className="flex flex-row justify-start items-center px-3">
-          <TouchableOpacity onPress={() => navigate.goBack()}>
+          <TouchableOpacity activeOpacity={AppStyle.TouchableOpacity.Active} onPress={() => navigate.goBack()}>
           <Ionicons
             name="chevron-back-circle-outline"
             size={38}
@@ -196,7 +198,7 @@ export default function SummaryScreen() {
               Hari Ini
             </Text>
             <Text className="text-neutral-700 font-bold text-xl">
-              Rp. {expenseData.length > 0 ? expenseData.reduce((acc, item) => acc + item.totalExpense, 0).toLocaleString("id-ID") : 0}
+              {expenseData.length > 0 ? FormatRupiahWithRp(expenseData.reduce((acc, item) => acc + item.totalExpense, 0)) : 0}
             </Text>
           </View>
           {expenseData.length > 0 && (
@@ -248,7 +250,7 @@ export default function SummaryScreen() {
               1 Minggu Ini
             </Text>
             <Text className="text-neutral-700 font-bold text-xl">
-              Rp. {weeklyExpenseData.length > 0 ? weeklyExpenseData.reduce((acc, item) => acc + item.totalExpense, 0).toLocaleString("id-ID") : 0}
+              {weeklyExpenseData.length > 0 ? FormatRupiahWithRp(weeklyExpenseData.reduce((acc, item) => acc + item.totalExpense, 0)) : 0}
             </Text>
           </View>
           {weeklyExpenseData.length > 0 && (
@@ -300,7 +302,7 @@ export default function SummaryScreen() {
               2 Minggu Ini
             </Text>
             <Text className="text-neutral-700 font-bold text-xl">
-              Rp. {twoWeeksExpenseData.length > 0 ? twoWeeksExpenseData.reduce((acc, item) => acc + item.totalExpense, 0).toLocaleString("id-ID") : 0}
+              {twoWeeksExpenseData.length > 0 ? FormatRupiahWithRp(twoWeeksExpenseData.reduce((acc, item) => acc + item.totalExpense, 0)) : 0}
             </Text>
           </View>
           {twoWeeksExpenseData.length > 0 && (
@@ -352,7 +354,7 @@ export default function SummaryScreen() {
               1 Bulan Ini
             </Text>
             <Text className="text-neutral-700 font-bold text-xl">
-              Rp. {monthlyExpenseData.length > 0 ? monthlyExpenseData.reduce((acc, item) => acc + item.totalExpense, 0).toLocaleString("id-ID") : 0}
+              {monthlyExpenseData.length > 0 ? FormatRupiahWithRp(monthlyExpenseData.reduce((acc, item) => acc + item.totalExpense, 0)) : 0}
             </Text>
           </View>
           {monthlyExpenseData.length > 0 && (
@@ -404,7 +406,7 @@ export default function SummaryScreen() {
               3 Bulan Ini
             </Text>
             <Text className="text-neutral-700 font-bold text-xl">
-              Rp. {threeMonthsExpenseData.length > 0 ? threeMonthsExpenseData.reduce((acc, item) => acc + item.totalExpense, 0).toLocaleString("id-ID") : 0}
+              {threeMonthsExpenseData.length > 0 ? FormatRupiahWithRp(threeMonthsExpenseData.reduce((acc, item) => acc + item.totalExpense, 0)) : 0}
             </Text>
           </View>
           {threeMonthsExpenseData.length > 0 && (
@@ -456,7 +458,7 @@ export default function SummaryScreen() {
               6 Bulan Ini
             </Text>
             <Text className="text-neutral-700 font-bold text-xl">
-              Rp. {sixMonthsExpenseData.length > 0 ? sixMonthsExpenseData.reduce((acc, item) => acc + item.totalExpense, 0).toLocaleString("id-ID") : 0}
+              {sixMonthsExpenseData.length > 0 ? FormatRupiahWithRp(sixMonthsExpenseData.reduce((acc, item) => acc + item.totalExpense, 0)) : 0}
             </Text>
           </View>
           {sixMonthsExpenseData.length > 0 && (
@@ -508,7 +510,7 @@ export default function SummaryScreen() {
               1 Tahun Ini
             </Text>
             <Text className="text-neutral-700 font-bold text-xl">
-              Rp. {yearlyExpenseData.length > 0 ? yearlyExpenseData.reduce((acc, item) => acc + item.totalExpense, 0).toLocaleString("id-ID") : 0}
+              {yearlyExpenseData.length > 0 ? FormatRupiahWithRp(yearlyExpenseData.reduce((acc, item) => acc + item.totalExpense, 0)) : 0}
             </Text>
           </View>
           {yearlyExpenseData.length > 0 && (

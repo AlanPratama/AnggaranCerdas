@@ -1,8 +1,9 @@
 import React from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import AppStyle from '../utils/style_util';
 
-export default function BottomSheetTransactionDelete({ transactionId, fetch, db, refRBSheet, refRBSheetUpdate }) {
+export default function BottomSheetTransactionDelete({ transactionId, productName, fetch, db, refRBSheet, refRBSheetUpdate }) {
   return (
     <View>
         <RBSheet
@@ -30,7 +31,7 @@ export default function BottomSheetTransactionDelete({ transactionId, fetch, db,
         height={500}
         openDuration={250}
       >
-        <TransactionComp transactionId={transactionId} fetch={fetch} db={db} refRBSheet={refRBSheet} refRBSheetUpdate={refRBSheetUpdate} />
+        <TransactionComp transactionId={transactionId} productName={productName} fetch={fetch} db={db} refRBSheet={refRBSheet} refRBSheetUpdate={refRBSheetUpdate} />
       </RBSheet>
     </View>
   )
@@ -38,7 +39,7 @@ export default function BottomSheetTransactionDelete({ transactionId, fetch, db,
 
 
 
-const TransactionComp = ({ transactionId, fetch, db, refRBSheet, refRBSheetUpdate }) => {
+const TransactionComp = ({ transactionId, productName, fetch, db, refRBSheet, refRBSheetUpdate }) => {
     
 
     const submit = async () => {
@@ -73,7 +74,7 @@ const TransactionComp = ({ transactionId, fetch, db, refRBSheet, refRBSheetUpdat
             <Text
             className="font-semibold text-lg text-neutral-800"
             >
-              Apakah Kamu Yakin Akan Menghapus Catatan Dengan ID <Text className="text-red-500 font-bold">{transactionId}</Text>?
+              Apakah Kamu Yakin Akan Menghapus Catatan "<Text className="text-red-500 font-bold">{productName}</Text>"?
             </Text>
           </View>
 
@@ -88,6 +89,7 @@ const TransactionComp = ({ transactionId, fetch, db, refRBSheet, refRBSheetUpdat
             }}
           >
             <TouchableOpacity
+              activeOpacity={AppStyle.TouchableOpacity.Active}
               style={{
                 backgroundColor: "#f6f6f6",
                 flex: 1,
@@ -104,10 +106,11 @@ const TransactionComp = ({ transactionId, fetch, db, refRBSheet, refRBSheetUpdat
                   textAlign: "center",
                 }}
               >
-                Cancel
+                Batal
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
+              activeOpacity={AppStyle.TouchableOpacity.Active}
               onPress={submit}
               style={{
                 backgroundColor: "#ef4444",

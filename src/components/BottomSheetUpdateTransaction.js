@@ -11,6 +11,8 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import SelectDropdown from "react-native-select-dropdown";
 import Icon from "react-native-vector-icons/Ionicons";
 import BottomSheetTransactionDelete from "./BottomSheetDeleteTransaction";
+import AppStyle from "../utils/style_util";
+import { FormatRupiah, SanitizeNumber } from "../utils/value_util";
 
 export default function BottomSheetTransactionUpdate({
   transaction,
@@ -79,7 +81,7 @@ const UpdateTransactionComp = ({
   const [totalPriceErr, setTotalPriceErr] = useState("");
   const [quantityErr, setQuantityErr] = useState("");
 
-  const refRBSheetDelete = useRef(null)
+  const refRBSheetDelete = useRef(null);
 
   const submit = async () => {
     if (!name) {
@@ -180,8 +182,10 @@ const UpdateTransactionComp = ({
             Total Harga
           </Text>
           <TextInput
-            value={`${totalPrice}`}
-            onChangeText={setTotalPrice}
+            value={FormatRupiah(totalPrice)}
+            onChangeText={(text) => {
+              setTotalPrice(SanitizeNumber(text));
+            }}
             placeholder="Masukkan Total Harga...."
             keyboardType="numeric"
             style={{
@@ -267,6 +271,7 @@ const UpdateTransactionComp = ({
           }}
         >
           <TouchableOpacity
+            activeOpacity={AppStyle.TouchableOpacity.Active}
             style={{
               backgroundColor: "#ef4444",
               flex: 1,
@@ -287,6 +292,7 @@ const UpdateTransactionComp = ({
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
+            activeOpacity={AppStyle.TouchableOpacity.Active}
             onPress={submit}
             style={{
               backgroundColor: "#3b82f6",
@@ -309,7 +315,14 @@ const UpdateTransactionComp = ({
         </View>
       </View>
 
-      <BottomSheetTransactionDelete transactionId={transaction.transactionId} fetch={fetch} db={db} refRBSheet={refRBSheetDelete} refRBSheetUpdate={refRBSheet} />
+      <BottomSheetTransactionDelete
+        transactionId={transaction.transactionId}
+        productName={transaction.product}
+        fetch={fetch}
+        db={db}
+        refRBSheet={refRBSheetDelete}
+        refRBSheetUpdate={refRBSheet}
+      />
     </ScrollView>
   );
 };

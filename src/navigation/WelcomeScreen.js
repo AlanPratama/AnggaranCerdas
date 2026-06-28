@@ -5,6 +5,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeIn } from "react-native-reanimated";
 import Img from "../../assets/splash.png";
 import { useSQLiteContext } from 'expo-sqlite';
+import AppStyle from '../utils/style_util';
 
 export default function WelcomeScreen() {
 
@@ -70,7 +71,7 @@ export default function WelcomeScreen() {
                 <Animated.Text entering={FadeIn.delay(200)} className="text-4xl mt-4 font-bold text-[#2f3060]">Anggaran Cerdas</Animated.Text>
                 <Animated.Text entering={FadeIn.delay(350)} className="capitalize my-4 text-justify text-lg font-semibold text-[#2f3060]">Dikelola dengan bijak, keuangan semakin mantap!</Animated.Text>
                 <Animated.View entering={FadeIn.delay(500)}>
-                    <TouchableOpacity onPress={() => navigate.navigate('Home')} className="bg-[#fc6c5c] px-3 py-2 rounded-lg mt-4"><Text className="text-white text-center text-lg font-bold">Mulai Sekarang</Text></TouchableOpacity>
+                    <TouchableOpacity activeOpacity={AppStyle.TouchableOpacity.Active} onPress={() => navigate.navigate('Home')} className="bg-[#fc6c5c] px-3 py-2 rounded-lg mt-4"><Text className="text-white text-center text-lg font-bold">Mulai Sekarang</Text></TouchableOpacity>
                 </Animated.View>
             </View>
         </View>
