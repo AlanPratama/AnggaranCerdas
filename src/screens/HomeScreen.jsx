@@ -167,10 +167,9 @@ export default function HomeScreen() {
             entering={FadeIn.delay(150)}
             className="text-2xl font-semibold mb-2"
           >
-            Selamat Datang!
+            Welcome Back!
           </Animated.Text>
 
-          {/* CATEGORY */}
           <Animated.View entering={FadeIn.delay(250)} className="mb-4">
             <ScrollView
               className="pb-2"
